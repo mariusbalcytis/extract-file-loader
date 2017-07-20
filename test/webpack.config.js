@@ -20,13 +20,16 @@ module.exports = {
         new AssetsPlugin({filename: 'manifest.json', path: outputDir})
     ],
     module: {
-        preLoaders: [{
-            test: /\.(gif|png|jpe?g|svg)$/i,
-            loader: 'image-webpack'
-        }],
-        loaders: [{
-            test: /\.(gif|png|jpe?g|svg)$/i,
-            loader: 'file?name=[name].optimized.[ext]'
-        }]
+        rules: [
+            {
+                enforce: 'pre',
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                loader: 'image-webpack-loader'
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                loader: 'file-loader?name=[name].optimized.[ext]'
+            },
+        ],
     }
 };
