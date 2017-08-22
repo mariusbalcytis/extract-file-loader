@@ -9,6 +9,15 @@ not added to the chunk files
 - this loader is used as a proxy to include this emitted file in the chunk
 so it's available in generated manifest
 
+# Install
+
+```bash
+# for webpack 3
+npm install --save-dev extract-text-webpack-plugin
+# for webpack 1, 2
+npm install --save-dev extract-text-webpack-plugin@0.1.0
+```
+
 ## Usage
 
 ```js
