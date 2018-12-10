@@ -1,51 +1,46 @@
 'use strict'
 
 class ExtractFilePlugin {
-
     apply(compiler) {
-
-        compiler.plugin('this-compilation', (compilation) => {
-
-            compilation.plugin('normal-module-loader', (loaderContext, module) => {
+        compiler.hooks.thisCompilation.tap('ExtractFilePlugin', (compilation) => {
+            compilation.hooks.normalModuleLoader.tap('ExtractFilePlugin', (loaderContext, module) => {
                 loaderContext[__dirname] = () => {
-                    module.meta[__dirname] = true;
+                    module.buildMeta[__dirname] = true;
                 };
             });
 
-            compilation.plugin('additional-assets', callback => {
-                compilation.chunks.forEach(chunk => {
-                    chunk.forEachModule(module => processModule(chunk, module));
-                });
-
-                callback();
+            compilation.hooks.additionalAssets.tap('ExtractFilePlugin', () => {
+                for (const chunk of compilation.chunks) {
+                    for (const module of chunk.modulesIterable) {
+                        processModule(chunk, module);
+                    }
+                }
             });
         });
     }
 }
 
 function processModule(chunk, ourModule) {
+    if (!ourModule.buildMeta || !ourModule.buildMeta[__dirname]) {
+        return;
+    }
 
-    if (ourModule.meta && ourModule.meta[__dirname]) {
-
-        let moduleFound = false;
-
-        // let's find module, which was issued by ours (proxied module)
-        chunk.forEachModule((module) => {
-
-            if (!moduleFound && module.reasons.some(reason => reason.module === ourModule)) {
-                // add assets from that module
-                addAssets(chunk, module);
-                // break cycle
-                moduleFound = true;
-            }
-        });
+    // let's find module, which was issued by ours (proxied module)
+    for (const module of chunk.modulesIterable) {
+        if (module.reasons.some(reason => reason.module === ourModule)) {
+            addAssets(chunk, module);
+            break;
+        }
     }
 }
 
 function addAssets(chunk, module) {
-
+    if (!module.buildInfo || !module.buildInfo.assets) {
+        return;
+    }
+    
     // add any emitted assets via proxied module to this chunk
-    for (let file in module.assets) {
+    for (const file of Object.keys(module.buildInfo.assets)) {
         chunk.files.push(file);
     }
 }

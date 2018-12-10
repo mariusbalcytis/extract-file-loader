@@ -1,20 +1,20 @@
 {
     "name": "extract-file-loader",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "author": "Marius Balčytis",
     "description": "Loader and plugin for webpack to add proxied asset as a chunk file",
     "dependencies": {
-        "loader-utils": "~0.2.5"
+        "loader-utils": "^1.1"
     },
     "devDependencies": {
-        "assets-webpack-plugin": "^3.5.0",
-        "file-loader": "^1.0.0-beta",
-        "image-webpack-loader": "^3",
-        "mocha": "^3.0.2",
-        "webpack": "^3"
+        "assets-webpack-plugin": "^3.9.7",
+        "file-loader": "^1.1.11 || ^2",
+        "image-webpack-loader": "^4.5",
+        "mocha": "^5.2",
+        "webpack": "^4"
     },
     "engines": {
-        "node": ">=4"
+        "node": ">=6.11.5"
     },
     "scripts": {
         "test": "mocha"
