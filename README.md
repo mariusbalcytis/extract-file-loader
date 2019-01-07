@@ -13,11 +13,11 @@ so it's available in generated manifest
 
 ```bash
 # for webpack 4
-npm install --save-dev extract-text-webpack-plugin
+npm install --save-dev extract-file-loader
 # for webpack 3
-npm install --save-dev extract-text-webpack-plugin@0.2.0
+npm install --save-dev extract-file-loader@0.2.0
 # for webpack 1, 2
-npm install --save-dev extract-text-webpack-plugin@0.1.0
+npm install --save-dev extract-file-loader@0.1.0
 ```
 
 ## Usage
