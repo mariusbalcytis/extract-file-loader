@@ -12,7 +12,7 @@ module.exports = function (content) {
         this[__dirname]();
     }
 
-    const query = loaderUtils.parseQuery(this.query);
+    const query = loaderUtils.getOptions(this);
 
     if (!query.q) {
         throw new Error('proxy-loader requires "q" query parameter');
