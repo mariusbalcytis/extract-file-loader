@@ -12,7 +12,7 @@ module.exports = function (content) {
         this[__dirname]();
     }
 
-    const query = loaderUtils.parseQuery(this.query);
+    const query = getOptions(this);
 
     if (!query.q) {
         throw new Error('proxy-loader requires "q" query parameter');
@@ -23,3 +23,19 @@ module.exports = function (content) {
 };
 
 module.exports.raw = true;
+
+
+function getOptions(loaderContext) {
+    const query = loaderContext.query;
+
+    if (typeof query === 'string' && query !== '') {
+        return loaderUtils.parseQuery(loaderContext.query);
+    }
+
+    if (!query || typeof query !== 'object') {
+        // Not object-like queries are not supported.
+        return null;
+    }
+
+    return query;
+}
